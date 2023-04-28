@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bybit Tickers</title>
+		<meta name='author' content='Santiago A. Orellana Pérez'/>
+		<meta name='description' content='Recibe los tickers del exchange Bybit y los muestra en pantalla.'/>
+		<meta name='email' content='tecnochago@gmail.com'/>
+		<meta name='phone' content='+5354635944'/>
+        <script type="text/javascript" src="./ccxt.browser.js"></script>
+        <script>
+            var exchange = null;
+            async function connectToExchange() {
+                exchange = new ccxt.pro.bybit({'newUpdates': false});
+                while (true){
+                    const ticker = await exchange.watchTicker('BTC/USDT:USDT')
+                    document.getElementById("price").value = ticker.last + ' USDT';
+                    document.getElementById("responseJson").textContent = JSON.stringify(ticker, undefined, 4);
+                }
+            }
+        </script>
+    </head>
+
+    <body style="background-color: rgb(80, 134, 134);">
+        <p style="width:1000px;color:rgb(65, 11, 11);font-weight: bold;">Esto es solo un ejemplo de cómo hacer pedidos con JavaScript desde el frontend utilizando el exchange Bybit, porque los otros exchanges que he probado (bitfinex, hitbtc, kucoin...) ponen las cosas difíciles con los CORDS... lo recomendado es hacer los pedidos desde el backend de la web.</p>
+		<input type="button" value='Conectar al exchange Bybit' onclick=connectToExchange()>
+        <input type="text" id="price" style="width:200px;color:blue;font-weight: bold;" /><br>
+        <pre 
+            id="responseJson" 
+            style="width:1000px;height:auto;border-style:solid;border-color:black;background-color:rgb(39, 38, 38);color:rgb(132, 132, 194);"
+        ></pre>
+    </body>
+</html>
